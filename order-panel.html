@@ -1,0 +1,1890 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Order Panel - Foodies</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Bootstrap Icons -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <style>
+        body {
+            font-family: 'Segoe UI', 'Roboto', 'Arial', sans-serif;
+            background-color: #f8f9fa;
+        }
+
+        .dashboard-icon {
+            display: inline-block;
+            font-size: 1.5rem;
+            vertical-align: middle;
+            line-height: 1;
+            background-color: #ffffff !important;
+            padding: 5px;
+            border-radius: 50%;
+            border: 2px solid #007bff;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            position: relative;
+            z-index: 1;
+            transition-delay: 0.5s;
+        }
+
+        .dashboard-icon i {
+            display: inline-block;
+            color: #007bff !important;
+        }
+
+        .order-panel {
+            min-height: 100vh;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            padding: 20px 0;
+        }
+
+        .panel-container {
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+            overflow: hidden;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .column {
+            padding: 30px;
+            border-right: 1px solid #e9ecef;
+        }
+
+        .column:last-child {
+            border-right: none;
+        }
+
+        .column-header {
+            font-size: 1.5rem;
+            font-weight: bold;
+            margin-bottom: 25px;
+            color: #2c3e50;
+            text-align: center;
+            padding-bottom: 15px;
+            border-bottom: 3px solid #007bff;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+        }
+
+        .dashboard-item {
+            display: block !important;
+            padding: 15px 20px;
+            margin-bottom: 10px;
+            background: #f8f9fa;
+            border: 1px solid #dee2e6;
+            border-radius: 10px;
+            text-decoration: none;
+            color: #495057 !important;
+            transition: all 0.3s ease;
+            visibility: visible !important;
+            opacity: 1 !important;
+        }
+
+        .dashboard-item:hover {
+            background: #007bff;
+            color: white;
+            transform: translateX(5px);
+        }
+
+        .branch-selector {
+            margin-bottom: 30px;
+        }
+
+        .branch-option {
+            display: block;
+            width: 100%;
+            padding: 12px 20px;
+            margin-bottom: 8px;
+            background: #e9ecef;
+            border: 2px solid transparent;
+            border-radius: 8px;
+            text-decoration: none;
+            color: #495057;
+            text-align: center;
+            transition: all 0.3s ease;
+        }
+
+        .branch-option:hover, .branch-option.active {
+            background: #28a745;
+            color: white;
+            border-color: #1e7e34;
+        }
+
+        .category-section {
+            margin-bottom: 25px;
+        }
+
+        .category-header {
+            font-weight: bold;
+            color: #6c757d;
+            margin-bottom: 15px;
+            padding-bottom: 8px;
+            border-bottom: 1px solid #dee2e6;
+        }
+
+        .category-item {
+            display: flex !important;
+            justify-content: space-between;
+            align-items: center;
+            padding: 12px 15px;
+            margin-bottom: 8px;
+            background: #f8f9fa;
+            border: 1px solid #dee2e6;
+            border-radius: 8px;
+            transition: all 0.3s ease;
+            visibility: visible !important;
+            opacity: 1 !important;
+        }
+
+        .category-item:hover {
+            background: #e9ecef;
+            transform: translateY(-2px);
+        }
+
+        .add-btn {
+            background: #dc3545;
+            color: white;
+            border: none;
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .add-btn:hover {
+            background: #c82333;
+            transform: scale(1.1);
+        }
+
+        .checkout-btn {
+            width: 100%;
+            padding: 12px;
+            font-weight: 600;
+            border-radius: 10px;
+            margin-top: auto;
+            position: sticky;
+            bottom: 0;
+            background: #28a745;
+            border: none;
+            transition: all 0.3s ease;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .cart-section {
+            background: #f8f9fa;
+            border-radius: 12px;
+            padding: 15px;
+            margin: 15px 0;
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            overflow-y: auto;
+            max-height: 60vh;
+        }
+
+        .cart-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 10px 0;
+            border-bottom: 1px solid #dee2e6;
+        }
+
+        .cart-item:last-child {
+            border-bottom: none;
+        }
+
+        .remove-btn {
+            background: #6c757d;
+            color: white;
+            border: none;
+            width: 25px;
+            height: 25px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            font-size: 12px;
+        }
+
+        .remove-btn:hover {
+            background: #5a6268;
+        }
+
+        /* Full Menu Toggle Styles */
+        .full-menu-toggle {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            width: 100%;
+            padding: 12px 20px;
+            background: #f8f9fa;
+            border: 1px solid #dee2e6;
+            border-radius: 8px;
+            font-weight: 600;
+            color: #2c3e50;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            margin-bottom: 15px;
+        }
+
+        .full-menu-toggle:hover {
+            background: #e9ecef;
+        }
+
+        .full-menu-toggle i {
+            transition: transform 0.3s ease;
+        }
+
+        .full-menu-toggle[aria-expanded="true"] i {
+            transform: rotate(180deg);
+        }
+
+        .full-menu-panel {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.5s ease-out;
+            margin: 10px 0;
+            background: #f9f9f9;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+        }
+
+        .full-menu-panel[aria-hidden="false"] {
+            max-height: 3000px;
+            transition: max-height 0.5s ease-in;
+        }
+
+        .full-menu-panel .category-section {
+            padding: 15px;
+        }
+
+        /* Focus styles for accessibility */
+        .full-menu-toggle:focus-visible {
+            outline: 3px solid #007bff;
+            outline-offset: 2px;
+        }
+
+        .checkout-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: rgba(0, 0, 0, 0.7);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.3s ease;
+        }
+
+        .checkout-overlay.active {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .checkout-panel {
+            background: white;
+            border-radius: 15px;
+            width: 90%;
+            max-width: 500px;
+            max-height: 90vh;
+            overflow-y: auto;
+            transform: translateY(20px);
+            transition: transform 0.3s ease;
+        }
+
+        .checkout-overlay.active .checkout-panel {
+            transform: translateY(0);
+        }
+
+        .checkout-header {
+            padding: 20px;
+            border-bottom: 1px solid #eee;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .checkout-header h4 {
+            margin: 0;
+            color: #2c3e50;
+            font-weight: 600;
+        }
+
+        .checkout-body {
+            padding: 20px;
+        }
+
+        .form-label {
+            font-weight: 500;
+            color: #495057;
+        }
+
+        .form-control:focus {
+            border-color: #007bff;
+            box-shadow: 0 0 0 0.25rem rgba(0, 123, 255, 0.15);
+        }
+        
+        /* Validation Styles */
+        .was-validated .form-control:invalid,
+        .form-control.is-invalid {
+            border-color: #dc3545;
+            padding-right: calc(1.5em + 0.75rem);
+            background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 12 12' width='12' height='12' fill='none' stroke='%23dc3545'%3e%3ccircle cx='6' cy='6' r='4.5'/%3e%3cpath stroke-linejoin='round' d='M5.8 3.6h.4L6 6.5z'/%3e%3ccircle cx='6' cy='8.2' r='.6' fill='%23dc3545' stroke='none'/%3e%3c/svg%3e");
+            background-repeat: no-repeat;
+            background-position: right calc(0.375em + 0.1875rem) center;
+            background-size: calc(0.75em + 0.375rem) calc(0.75em + 0.375rem);
+        }
+        
+        .was-validated .form-control:valid,
+        .form-control.is-valid {
+            border-color: #198754;
+            padding-right: calc(1.5em + 0.75rem);
+            background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 8 8'%3e%3cpath fill='%23198754' d='M2.3 6.73L.6 4.53c-.4-1.04.46-1.4 1.1-.8l1.1 1.4 3.4-3.8c.6-.63 1.6-.27 1.2.7l-4 4.6c-.43.5-.8.4-1.1.1z'/%3e%3c/svg%3e");
+            background-repeat: no-repeat;
+            background-position: right calc(0.375em + 0.1875rem) center;
+            background-size: calc(0.75em + 0.375rem) calc(0.75em + 0.375rem);
+        }
+        
+        .invalid-feedback {
+            display: none;
+            width: 100%;
+            margin-top: 0.25rem;
+            font-size: 0.875em;
+            color: #dc3545;
+        }
+        
+        .was-validated .form-control:invalid ~ .invalid-feedback,
+        .form-control.is-invalid ~ .invalid-feedback {
+            display: block;
+        }
+        
+        .text-danger {
+            color: #dc3545 !important;
+        }
+        
+        .form-text {
+            font-size: 0.875em;
+            color: #6c757d;
+            margin-top: 0.25rem;
+        }
+        
+        .spinner-border {
+            vertical-align: text-top;
+            width: 1rem;
+            height: 1rem;
+        }
+        
+        /* Thank You Message Styles */
+        .thank-you-icon {
+            animation: bounceIn 0.8s ease-out;
+        }
+        
+        @keyframes bounceIn {
+            0% { transform: scale(0.3); opacity: 0; }
+            50% { transform: scale(1.1); }
+            70% { transform: scale(0.9); }
+            100% { transform: scale(1); opacity: 1; }
+        }
+        
+        .checkout-panel.text-center {
+            max-width: 500px;
+            margin: 0 auto;
+        }
+        
+        .checkout-panel h2 {
+            color: #2c3e50;
+            font-weight: 700;
+        }
+        
+        .checkout-panel h3 {
+            color: #495057;
+            font-weight: 500;
+            font-size: 1.5rem;
+        }
+        
+        /* Quantity Selector Styles */
+        .quantity-selector {
+            user-select: none;
+        }
+        
+        .quantity-selector button {
+            width: 50px;
+            height: 50px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.2rem;
+            transition: all 0.2s;
+        }
+        
+        .quantity-selector button:active {
+            transform: scale(0.95);
+        }
+        
+        .quantity-selector span {
+            min-width: 60px;
+            text-align: center;
+        }
+        
+        #item-total-price {
+            color: #198754;
+            font-weight: 600;
+        }
+        
+        .checkout-header h5 {
+            margin: 0;
+            color: #2c3e50;
+            font-weight: 600;
+        }
+
+        .total-section {
+            background: #e9ecef;
+            border-radius: 10px;
+            padding: 20px;
+            margin-bottom: 20px;
+        }
+
+        .pay-btn {
+            width: 100%;
+            padding: 15px;
+            background: linear-gradient(135deg, #28a745, #20c997);
+            color: white;
+            border: none;
+            border-radius: 10px;
+            font-size: 1.2rem;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .pay-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(40, 167, 69, 0.3);
+        }
+
+        .back-btn {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            background: rgba(255,255,255,0.9);
+            color: #495057;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 25px;
+            text-decoration: none;
+            transition: all 0.3s ease;
+        }
+
+        .back-btn:hover {
+            background: white;
+            color: #007bff;
+            transform: translateY(-2px);
+        }
+
+        @media (max-width: 991.98px) {
+            .panel-container {
+                margin: 10px 0;
+            }
+            
+            .column {
+                padding: 20px !important;
+            }
+            
+            .cart-section {
+                max-height: none;
+                margin: 10px 0;
+            }
+        }
+        
+        @media (max-width: 767.98px) {
+            .container-fluid {
+                padding-left: 15px;
+                padding-right: 15px;
+            }
+            
+            .table-responsive {
+                border: 0;
+                margin-bottom: 1rem;
+                overflow-y: hidden;
+            }
+            
+            .panel-container {
+                margin-bottom: 20px;
+            }
+        }
+        
+        .column {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+        }
+        
+        /* Ensure proper spacing and scrolling */
+        .category-section {
+            flex: 1;
+            overflow-y: auto;
+            padding-right: 10px;
+        }
+        
+        /* Custom scrollbar */
+        .category-section::-webkit-scrollbar {
+            width: 6px;
+        }
+        
+        .category-section::-webkit-scrollbar-track {
+            background: #f1f1f1;
+            border-radius: 10px;
+        }
+        
+        .category-section::-webkit-scrollbar-thumb {
+            background: #888;
+            border-radius: 10px;
+        }
+        
+        .category-section::-webkit-scrollbar-thumb:hover {
+            background: #555;
+        }
+    </style>
+</head>
+<body>
+    <div class="order-panel position-relative">
+        <a href="index.php" class="back-btn" id="backButton">
+            <i class="bi bi-arrow-left"></i> Back to Home
+        </a>
+
+        <div class="container-fluid py-4">
+            <div class="row g-4">
+                <!-- Left Sidebar: Dashboard -->
+                <div class="col-lg-3 col-md-4">
+                    <div class="panel-container h-100">
+                        <div class="column p-3">
+                                <div class="column">
+                                    <div class="column-header">
+                                        
+                                            <i class="fas fa-th-large" ></i> Dashboard
+                                        
+                                    </div>
+                                    
+                                    <a href="traditional-home.html" class="dashboard-item">
+                                        <i class="bi bi-house-door me-3"></i> Home
+                                    </a>
+                                    
+                                    <a href="order-panel.html" class="dashboard-item">
+                                        <i class="bi bi-basket3 me-3"></i> Order Now
+                                    </a>
+                                    
+                                    <a href="cart-view.html" class="dashboard-item">
+                                        <i class="bi bi-cart3 me-3"></i> View Cart
+                                    </a>
+                                    
+                                    <a href="checkout.html" class="dashboard-item">
+                                        <i class="bi bi-credit-card me-3"></i> Checkout
+                                    </a>
+                                    
+                                    <a href="about.html" class="dashboard-item">
+                                        <i class="bi bi-info-circle me-3"></i> About Us
+                                    </a>
+                                    
+                                    <a href="contact.html" class="dashboard-item">
+                                        <i class="bi bi-telephone me-3"></i> Contact
+                                    </a>
+                                    
+                                    <div class="dashboard-item" style="background: #f8f9fa; margin-top: 20px; padding: 15px; border-radius: 10px;">
+                                        <div class="text-center">
+                                            <i class="bi bi-star-fill text-warning me-2"></i>
+                                            <strong>5-Star Restaurant</strong><br>
+                                            <small class="text-muted">Premium Quality Food</small>
+                                        </div>
+                                    </div>
+                                </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Middle Content: Menu -->
+                <div class="col-lg-6 col-md-8">
+                    <div class="panel-container h-100">
+                        <div class="column p-4">
+                                    <div class="column-header">
+                                        <i class="bi bi-geo-alt"></i> Select & Browse
+                                    </div>
+                                    
+                                    <!-- Branch Selection -->
+                                    <div class="branch-selector">
+                                        <h6 class="text-muted mb-3">Choose Branch:</h6>
+                                        <a href="?branch=downtown" class="branch-option active">
+                                            <i class="bi bi-building me-2"></i> Downtown Branch
+                                        </a>
+                                        <a href="?branch=mall" class="branch-option">
+                                            <i class="bi bi-shop me-2"></i> Mall Branch
+                                        </a>
+                                        <a href="?branch=airport" class="branch-option">
+                                            <i class="bi bi-airplane me-2"></i> Airport Branch
+                                        </a>
+                                    </div>
+
+                                    <!-- Full Menu Toggle Button -->
+                                    <button class="full-menu-toggle" 
+                                            id="fullMenuToggle" 
+                                            aria-expanded="false" 
+                                            aria-controls="fullMenuPanel">
+                                        <span>Show Full Menu (12 Items)</span>
+                                        <i class="bi bi-chevron-down"></i>
+                                    </button>
+
+                                    <!-- Collapsible Full Menu Panel -->
+                                    <div class="full-menu-panel" 
+                                         id="fullMenuPanel" 
+                                         aria-hidden="true">
+                                        <div class="category-section">
+                                        
+                                        <div class="category-item" data-item="stuffed-chicken">
+                                            <div>
+                                                <strong>Stuffed Chicken Breast</strong><br>
+                                                <small class="text-muted">Rs 1,995 • Chicken with cheese & spinach stuffing</small>
+                                            </div>
+                                            <button type="button" class="add-btn add-to-cart-btn" 
+                                                data-item="stuffed-chicken" 
+                                                data-name="Stuffed Chicken Breast" 
+                                                data-price="1995">+</button>
+                                        </div>
+
+                                        <div class="category-item" data-item="seafood-pasta">
+                                            <div>
+                                                <strong>Seafood Pasta</strong><br>
+                                                <small class="text-muted">Rs 2,495 • Fresh seafood with linguine pasta</small>
+                                            </div>
+                                            <button type="button" class="add-btn add-to-cart-btn" 
+                                                data-item="seafood-pasta" 
+                                                data-name="Seafood Pasta" 
+                                                data-price="2495">+</button>
+                                        </div>
+
+                                        <div class="category-item" data-item="grilled-snapper">
+                                            <div>
+                                                <strong>Grilled Red Snapper</strong><br>
+                                                <small class="text-muted">Rs 2,695 • Grilled fish with coconut curry sauce</small>
+                                            </div>
+                                            <button type="button" class="add-btn add-to-cart-btn" 
+                                                data-item="grilled-snapper" 
+                                                data-name="Grilled Red Snapper" 
+                                                data-price="2695">+</button>
+                                        </div>
+
+                                        <div class="category-item" data-item="buffalo-wings">
+                                            <div>
+                                                <strong>Buffalo Wings</strong><br>
+                                                <small class="text-muted">Rs 2,395 • 24hr marinated chicken in buffalo sauce</small>
+                                            </div>
+                                            <button type="button" class="add-btn add-to-cart-btn" 
+                                                data-item="buffalo-wings" 
+                                                data-name="Buffalo Wings" 
+                                                data-price="2395">+</button>
+                                        </div>
+
+                                        <div class="category-item" data-item="italian-pasta">
+                                            <div>
+                                                <strong>Italian Pasta</strong><br>
+                                                <small class="text-muted">Rs 1,895 • Authentic pasta with fresh tomatoes</small>
+                                            </div>
+                                            <button type="button" class="add-btn add-to-cart-btn" 
+                                                data-item="italian-pasta" 
+                                                data-name="Italian Pasta" 
+                                                data-price="1895">+</button>
+                                        </div>
+
+                                        <div class="category-item" data-item="butchers-chicken">
+                                            <div>
+                                                <strong>Butchers Chicken</strong><br>
+                                                <small class="text-muted">Rs 1,995 • Herb fried chicken with creamy spinach</small>
+                                            </div>
+                                            <button type="button" class="add-btn add-to-cart-btn" 
+                                                data-item="butchers-chicken" 
+                                                data-name="Butchers Chicken" 
+                                                data-price="1995">+</button>
+                                        </div>
+
+                                        <!-- New Main Course 1 -->
+                                        <div class="category-item" data-item="grilled-beef-tenderloin">
+                                            <div>
+                                                <strong>Grilled Beef Tenderloin</strong><br>
+                                                <small class="text-muted">Rs 3,295 • Premium cut with roasted vegetables</small>
+                                            </div>
+                                            <button type="button" class="add-btn add-to-cart-btn" 
+                                                data-item="grilled-beef-tenderloin" 
+                                                data-name="Grilled Beef Tenderloin" 
+                                                data-price="3295">+</button>
+                                        </div>
+
+                                        <!-- New Main Course 2 -->
+                                        <div class="category-item" data-item="mushroom-risotto">
+                                            <div>
+                                                <strong>Mushroom Risotto</strong><br>
+                                                <small class="text-muted">Rs 2,195 • Creamy arborio rice with wild mushrooms</small>
+                                            </div>
+                                            <button type="button" class="add-btn add-to-cart-btn" 
+                                                data-item="mushroom-risotto" 
+                                                data-name="Mushroom Risotto" 
+                                                data-price="2195">+</button>
+                                        </div>
+
+                                        <!-- New Main Course 3 -->
+                                        <div class="category-item" data-item="grilled-salmon">
+                                            <div>
+                                                <strong>Grilled Salmon</strong><br>
+                                                <small class="text-muted">Rs 2,795 • Fresh Atlantic salmon with lemon butter</small>
+                                            </div>
+                                            <button type="button" class="add-btn add-to-cart-btn" 
+                                                data-item="grilled-salmon" 
+                                                data-name="Grilled Salmon" 
+                                                data-price="2795">+</button>
+                                        </div>
+
+                                        <!-- New Main Course 4 -->
+                                        <div class="category-item" data-item="chicken-parmesan">
+                                            <div>
+                                                <strong>Chicken Parmesan</strong><br>
+                                                <small class="text-muted">Rs 2,395 • Breaded chicken with marinara and mozzarella</small>
+                                            </div>
+                                            <button type="button" class="add-btn add-to-cart-btn" 
+                                                data-item="chicken-parmesan" 
+                                                data-name="Chicken Parmesan" 
+                                                data-price="2395">+</button>
+                                        </div>
+
+                                        <!-- New Main Course 5 -->
+                                        <div class="category-item" data-item="vegetable-lasagna">
+                                            <div>
+                                                <strong>Vegetable Lasagna</strong><br>
+                                                <small class="text-muted">Rs 1,995 • Layers of pasta with seasonal vegetables</small>
+                                            </div>
+                                            <button type="button" class="add-btn add-to-cart-btn" 
+                                                data-item="vegetable-lasagna" 
+                                                data-name="Vegetable Lasagna" 
+                                                data-price="1995">+</button>
+                                        </div>
+
+                                        <!-- New Main Course 6 -->
+                                        <div class="category-item" data-item="gourmet-beef-burger">
+                                            <div>
+                                                <strong>Gourmet Beef Burger</strong><br>
+                                                <small class="text-muted">Rs 2,195 • Juicy beef patty with cheddar and bacon</small>
+                                            </div>
+                                            <button type="button" class="add-btn add-to-cart-btn" 
+                                                data-item="gourmet-beef-burger" 
+                                                data-name="Gourmet Beef Burger" 
+                                                data-price="2195">+</button>
+                                        </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Right Sidebar: Order Summary -->
+                <div class="col-lg-3 col-md-12">
+                    <div class="panel-container h-100">
+                        <div class="column p-3">
+                                    <div class="column-header">
+                                        <i class="bi bi-cart3"></i> Your Order
+                                    </div>
+                                    
+                                    <!-- Cart Items -->
+                                    <div class="cart-section">
+                                        <h6 class="text-muted mb-3">Your Selections (<span id="cart-count">0</span>)</h6>
+                                        <div id="cart-items">
+                                            <p class="text-center text-muted">Your cart is empty</p>
+                                            <p class="text-center">
+                                                <small>Add items from the categories to see them here</small>
+                                            </p>
+                                        </div>
+                                    </div>
+
+                                    <!-- Order Summary -->
+                                    <div class="total-section">
+                                        <div class="d-flex justify-content-between mb-2">
+                                            <span>Subtotal:</span>
+                                            <span id="subtotal">Rs 0</span>
+                                        </div>
+                                        <div class="d-flex justify-content-between mb-2">
+                                            <span>Tax (13%):</span>
+                                            <span id="tax">Rs 0</span>
+                                        </div>
+                                        <div class="d-flex justify-content-between mb-2">
+                                            <span>Delivery:</span>
+                                            <span>Rs 200</span>
+                                        </div>
+                                        <hr>
+                                        <div class="d-flex justify-content-between fw-bold fs-5">
+                                            <span>Total:</span>
+                                            <span id="total">Rs 200</span>
+                                        </div>
+                                    </div>
+
+                                    <!-- Payment Button -->
+                                    <button type="button" class="pay-btn" id="proceed-to-payment">
+                                        <i class="bi bi-credit-card me-2"></i> Proceed to Payment
+                                    </button>
+
+                                    <!-- Additional Info -->
+                                    <div class="mt-3 text-center">
+                                        <small class="text-muted">
+                                            <i class="bi bi-shield-check me-1"></i> Secure Payment<br>
+                                            <i class="bi bi-truck me-1"></i> 30-45 min delivery
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Cart Summary Panel -->
+    <div class="checkout-overlay" id="cart-summary-overlay">
+        <div class="checkout-panel">
+            <div class="checkout-header">
+                <h4><i class="bi bi-cart-check me-2"></i> Review Your Order</h4>
+                <button type="button" class="btn-close" id="close-cart-summary"></button>
+            </div>
+            <div class="checkout-body">
+                <div class="mb-4">
+                    <h6 class="mb-3">Order Summary</h6>
+                    <div id="order-summary-items">
+                        <!-- Cart items will be dynamically inserted here -->
+                    </div>
+                    <div class="total-section mt-3">
+                        <div class="d-flex justify-content-between mb-2">
+                            <span>Subtotal:</span>
+                            <span id="summary-subtotal">Rs 0</span>
+                        </div>
+                        <div class="d-flex justify-content-between mb-2">
+                            <span>Tax (13%):</span>
+                            <span id="summary-tax">Rs 0</span>
+                        </div>
+                        <div class="d-flex justify-content-between mb-2">
+                            <span>Delivery:</span>
+                            <span id="summary-delivery">Rs 200</span>
+                        </div>
+                        <hr>
+                        <div class="d-flex justify-content-between fw-bold fs-5">
+                            <span>Total:</span>
+                            <span id="summary-total">Rs 200</span>
+                        </div>
+                    </div>
+                </div>
+                <button type="button" class="btn btn-primary w-100 py-2" id="place-order-btn">
+                    <i class="bi bi-credit-card me-2"></i> Place Order
+                </button>
+                <button type="button" class="btn btn-outline-secondary w-100 mt-2" id="back-to-cart">
+                    <i class="bi bi-arrow-left me-2"></i> Back to Cart
+                </button>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Checkout Panel Overlay -->
+    <div class="checkout-overlay" id="checkout-overlay">
+        <div class="checkout-panel">
+            <div class="checkout-header">
+                <h4><i class="bi bi-credit-card me-2"></i> Complete Your Order</h4>
+                <button type="button" class="btn-close" id="close-checkout"></button>
+            </div>
+            <div class="checkout-body">
+                <form action="checkout.html" method="post" id="checkout-form" novalidate>
+                    <div class="mb-3">
+                        <label for="name" class="form-label">Full Name <span class="text-danger">*</span></label>
+                        <input type="text" class="form-control" id="name" name="name" minlength="3" maxlength="50" pattern="[A-Za-z\s]+" required>
+                        <div class="invalid-feedback">
+                            Please enter a valid name (letters and spaces only, 3-50 characters)
+                        </div>
+                    </div>
+                    <div class="mb-3">
+                        <label for="phone" class="form-label">Phone Number <span class="text-danger">*</span></label>
+                        <input type="tel" class="form-control" id="phone" name="phone" 
+                               pattern="[0-9]{10,15}" 
+                               title="Please enter a valid phone number (10-15 digits)"
+                               required>
+                        <div class="invalid-feedback">
+                            Please enter a valid phone number (10-15 digits)
+                        </div>
+                    </div>
+                    <div class="mb-3">
+                        <label for="email" class="form-label">Email <span class="text-danger">*</span></label>
+                        <input type="email" class="form-control" id="email" name="email" required>
+                        <div class="invalid-feedback">
+                            Please enter a valid email address
+                        </div>
+                    </div>
+                    <div class="mb-3">
+                        <label for="address" class="form-label">Delivery Address <span class="text-danger">*</span></label>
+                        <textarea class="form-control" id="address" name="address" rows="3" minlength="10" required></textarea>
+                        <div class="invalid-feedback">
+                            Please enter a valid delivery address (at least 10 characters)
+                        </div>
+                    </div>
+                    <div class="mb-3">
+                        <label for="special-instructions" class="form-label">Special Instructions</label>
+                        <textarea class="form-control" id="special-instructions" name="special-instructions" rows="2" maxlength="200"></textarea>
+                        <div class="form-text">Any special instructions for delivery (max 200 characters)</div>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Payment Method</label>
+                        <div class="form-check mb-2">
+                            <input class="form-check-input" type="radio" name="paymentMethod" id="cod" value="cod" checked>
+                            <label class="form-check-label" for="cod">
+                                <i class="bi bi-cash-stack me-2"></i> Cash on Delivery
+                            </label>
+                        </div>
+                        <div class="form-check">
+                            <input class="form-check-input" type="radio" name="paymentMethod" id="card" value="card">
+                            <label class="form-check-label" for="card">
+                                <i class="bi bi-credit-card me-2"></i> Credit/Debit Card
+                            </label>
+                        </div>
+                    </div>
+                    <button type="submit" class="btn btn-primary w-100 py-2">
+                        <i class="bi bi-check-circle me-2"></i> Place Order
+                    </button>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- Thank You Overlay -->
+    <div class="checkout-overlay" id="thank-you-overlay">
+        <div class="checkout-panel text-center p-5">
+            <div class="mb-4">
+                <div class="thank-you-icon mb-3">
+                    <i class="bi bi-check-circle-fill text-success" style="font-size: 4rem;"></i>
+                </div>
+                <h2 class="mb-3">Thank You!</h2>
+                <h3 class="mb-4">Your order has been placed successfully</h3>
+                <p class="lead mb-4">We appreciate your business at <span class="text-primary fw-bold">Foodies</span>!</p>
+                <p class="text-muted mb-4">Your delicious food is being prepared and will be with you shortly.</p>
+                <button class="btn btn-primary" id="back-to-home">
+                    <i class="bi bi-house-door me-2"></i> Back to Home
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Quantity Selector Overlay -->
+    <div class="checkout-overlay" id="quantity-selector-overlay">
+        <div class="checkout-panel" style="max-width: 400px;">
+            <div class="checkout-header">
+                <h5 id="selected-item-name">Item Name</h5>
+                <button type="button" class="btn-close" id="close-quantity-selector"></button>
+            </div>
+            <div class="checkout-body text-center">
+                <div class="mb-4">
+                    <p class="text-muted mb-3">Select Quantity</p>
+                    <div class="quantity-selector d-flex align-items-center justify-content-center mb-4">
+                        <button type="button" class="btn btn-outline-secondary btn-lg rounded-circle" id="decrease-qty">
+                            <i class="bi bi-dash-lg"></i>
+                        </button>
+                        <span class="mx-4 display-5 fw-bold" id="quantity-display">1</span>
+                        <button type="button" class="btn btn-outline-secondary btn-lg rounded-circle" id="increase-qty">
+                            <i class="bi bi-plus-lg"></i>
+                        </button>
+                    </div>
+                    <div class="item-price h4 mb-4" id="item-total-price">Rs 0</div>
+                </div>
+                <button type="button" class="btn btn-primary w-100 py-2" id="add-to-cart-btn">
+                    <i class="bi bi-cart-plus me-2"></i> Add to Order
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Bootstrap Bundle with Popper -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+    <!-- GSAP for animations -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    
+    <!-- Collapsible Menu Script -->
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const toggleButton = document.getElementById('fullMenuToggle');
+            const menuPanel = document.getElementById('fullMenuPanel');
+            
+            if (toggleButton && menuPanel) {
+                // Toggle menu visibility
+                toggleButton.addEventListener('click', function(e) {
+                    e.stopPropagation();
+                    const isExpanded = this.getAttribute('aria-expanded') === 'true';
+                    this.setAttribute('aria-expanded', !isExpanded);
+                    menuPanel.setAttribute('aria-hidden', isExpanded);
+                    
+                    // Update button text
+                    const buttonText = isExpanded ? 'Show Full Menu' : 'Hide Full Menu';
+                    const itemCount = ' (12 Items)';
+                    this.querySelector('span').textContent = buttonText + itemCount;
+                });
+
+                // Close menu when clicking outside
+                document.addEventListener('click', function(e) {
+                    if (!toggleButton.contains(e.target) && !menuPanel.contains(e.target)) {
+                        if (toggleButton.getAttribute('aria-expanded') === 'true') {
+                            toggleButton.click();
+                        }
+                    }
+                });
+
+                // Close menu with Escape key
+                document.addEventListener('keydown', function(e) {
+                    if (e.key === 'Escape' && toggleButton.getAttribute('aria-expanded') === 'true') {
+                        toggleButton.click();
+                        toggleButton.focus();
+                    }
+                });
+            }
+        });
+    </script>
+
+    <!-- Simple GSAP Animations for Order Panel -->
+    <script>
+        // Check for newly added item from menu page
+        document.addEventListener('DOMContentLoaded', function() {
+            const justAddedItem = sessionStorage.getItem('justAddedItem');
+            if (justAddedItem) {
+                const item = JSON.parse(justAddedItem);
+                // Remove the flag
+                sessionStorage.removeItem('justAddedItem');
+                
+                // Add the item to cart
+                addToCart(item.name.toLowerCase().replace(/\s+/g, '-'), item.price, item.quantity);
+                
+                // Show the cart summary panel
+                document.getElementById('cart-summary-overlay').classList.add('active');
+                document.body.style.overflow = 'hidden';
+            }
+        });
+
+        // Initialize cart from localStorage or create new cart
+        let cart = JSON.parse(localStorage.getItem('foodiesCart')) || { items: [] };
+        let cartCount = 0;
+        let cartTotal = 0;
+        
+        // Item database
+        const items = {
+            'stuffed-chicken': { name: 'Stuffed Chicken Breast', price: 1995 },
+            'seafood-pasta': { name: 'Seafood Pasta', price: 2495 },
+            'grilled-snapper': { name: 'Grilled Red Snapper', price: 2695 },
+            'buffalo-wings': { name: 'Buffalo Wings', price: 2395 },
+            'italian-pasta': { name: 'Italian Pasta', price: 1895 },
+            'butchers-chicken': { name: 'Butchers Chicken', price: 1995 },
+            'grilled-beef-tenderloin': { name: 'Grilled Beef Tenderloin', price: 3295 },
+            'mushroom-risotto': { name: 'Mushroom Risotto', price: 2195 },
+            'grilled-salmon': { name: 'Grilled Salmon', price: 2795 },
+            'chicken-parmesan': { name: 'Chicken Parmesan', price: 2395 },
+            'vegetable-lasagna': { name: 'Vegetable Lasagna', price: 1995 },
+            'gourmet-beef-burger': { name: 'Gourmet Beef Burger', price: 2195 }
+        };
+        
+        // Add item to cart function
+        function addToCart(itemKey, price, quantity = 1) {
+            // Ensure price is properly parsed as a number
+            const parsedPrice = typeof price === 'string' ? parseInt(price.replace(/[^0-9]/g, '')) : Number(price);
+            const parsedQuantity = parseInt(quantity) || 1;
+            
+            // If the item already exists in cart, update its quantity
+            // Otherwise, initialize it with the given quantity
+            if (!cart[itemKey]) {
+                cart[itemKey] = { 
+                    quantity: parsedQuantity, 
+                    price: parsedPrice 
+                };
+            } else {
+                cart[itemKey].quantity = parsedQuantity;
+                cart[itemKey].price = parsedPrice; // Ensure price is updated in case it changed
+            }
+            
+            // Save to localStorage
+            localStorage.setItem('foodiesCart', JSON.stringify(cart));
+            
+            // Update display
+            updateCartDisplay();
+            
+            // Show success feedback
+            showAddToCartFeedback(itemKey, quantity);
+            
+            // Animate add button if this was a direct add (not from quantity selector)
+            if (event && event.target) {
+                const addBtn = event.target;
+                if (typeof gsap !== 'undefined') {
+                    gsap.to(addBtn, {
+                        duration: 0.3,
+                        scale: 1.2,
+                        backgroundColor: '#28a745',
+                        yoyo: true,
+                        repeat: 1,
+                        ease: 'power2.inOut',
+                        onComplete: () => {
+                            // Reset button style after animation
+                            gsap.to(addBtn, {
+                                duration: 0.3,
+                                scale: 1,
+                                backgroundColor: ''
+                            });
+                        }
+                    });
+                }
+            }
+        }
+        
+        // Show add to cart feedback
+        function showAddToCartFeedback(itemKey, quantity = 1) {
+            const itemName = items[itemKey]?.name || 'Item';
+            const feedback = document.createElement('div');
+            const itemText = quantity > 1 ? `${quantity} x ${itemName} added to cart!` : `${itemName} added to cart!`;
+            
+            feedback.innerHTML = `
+                <div style="position: fixed; top: 20px; right: 20px; background: #28a745; color: white; padding: 15px 20px; border-radius: 10px; z-index: 9999; box-shadow: 0 5px 15px rgba(0,0,0,0.2);">
+                    <i class="bi bi-check-circle me-2"></i>${itemText}
+                </div>
+            `;
+            document.body.appendChild(feedback);
+            
+            if (typeof gsap !== 'undefined') {
+                gsap.from(feedback.firstElementChild, {
+                    duration: 0.5,
+                    x: 100,
+                    opacity: 0,
+                    ease: 'power2.out'
+                });
+                
+                setTimeout(() => {
+                    gsap.to(feedback.firstElementChild, {
+                        duration: 0.5,
+                        x: 100,
+                        opacity: 0,
+                        ease: 'power2.in',
+                        onComplete: () => feedback.remove()
+                    });
+                }, 2000);
+            } else {
+                setTimeout(() => feedback.remove(), 2000);
+            }
+        }
+        
+        // Update cart display
+        function updateCartDisplay() {
+            cartCount = 0;
+            cartTotal = 0;
+            
+            // Calculate totals
+            Object.values(cart).forEach(item => {
+                if (item && item.quantity && item.price) {
+                    const quantity = parseInt(item.quantity) || 0;
+                    const price = parseFloat(item.price) || 0;
+                    cartCount += quantity;
+                    cartTotal += quantity * price;
+                }
+            });
+            
+            // Ensure we don't have any NaN values
+            cartCount = isNaN(cartCount) ? 0 : cartCount;
+            cartTotal = isNaN(cartTotal) ? 0 : cartTotal;
+            
+            // Update cart items display
+            const cartItemsContainer = document.getElementById('cart-items');
+            if (cartItemsContainer) {
+                if (cartCount === 0) {
+                    cartItemsContainer.innerHTML = `
+                        <p class="text-center text-muted">Your cart is empty</p>
+                        <p class="text-center"><small>Add items from the categories to see them here</small></p>
+                    `;
+                } else {
+                    let cartHTML = '';
+                    Object.entries(cart).forEach(([itemKey, cartItem]) => {
+                        const itemData = items[itemKey];
+                        if (itemData && cartItem.quantity > 0) {
+                            cartHTML += `
+                                <div class="cart-item">
+                                    <div>
+                                        <strong>${itemData.name}</strong><br>
+                                        <small class="text-muted">Rs ${cartItem.price.toLocaleString()} x ${cartItem.quantity}</small>
+                                    </div>
+                                    <div class="d-flex align-items-center gap-2">
+                                        <span class="fw-bold">Rs ${(cartItem.price * cartItem.quantity).toLocaleString()}</span>
+                                        <button class="remove-btn" onclick="removeFromCart('${itemKey}')" type="button">×</button>
+                                    </div>
+                                </div>
+                            `;
+                        }
+                    });
+                    cartItemsContainer.innerHTML = cartHTML;
+                }
+            }
+            
+            // Update totals
+            const tax = Math.round(cartTotal * 0.13);
+            const delivery = cartTotal > 0 ? 200 : 0;
+            const finalTotal = cartTotal + tax + delivery;
+            
+            // Update cart count in the order summary
+            const cartCountElement = document.getElementById('cart-count');
+            if (cartCountElement) {
+                cartCountElement.textContent = cartCount;
+            }
+            
+            // Update totals
+            const subtotalEl = document.getElementById('subtotal');
+            const taxEl = document.getElementById('tax');
+            const totalEl = document.getElementById('total');
+            
+            if (subtotalEl) subtotalEl.textContent = `Rs ${cartTotal.toLocaleString()}`;
+            if (taxEl) taxEl.textContent = `Rs ${tax.toLocaleString()}`;
+            if (totalEl) totalEl.textContent = `Rs ${finalTotal.toLocaleString()}`;
+        }
+        
+        // Remove item from cart
+        function removeFromCart(itemKey) {
+            if (cart[itemKey]) {
+                cart[itemKey].quantity -= 1;
+                if (cart[itemKey].quantity <= 0) {
+                    delete cart[itemKey];
+                }
+                localStorage.setItem('foodiesCart', JSON.stringify(cart));
+                updateCartDisplay();
+                
+                // Animate removal
+                if (typeof gsap !== 'undefined') {
+                    gsap.from('#cart-items', {
+                        duration: 0.3,
+                        scale: 0.95,
+                        ease: 'power2.out'
+                    });
+                }
+            }
+        }
+        
+        // Cart and Checkout Panel Elements
+        const cartSummaryOverlay = document.getElementById('cart-summary-overlay');
+        const checkoutOverlay = document.getElementById('checkout-overlay');
+        const quantitySelectorOverlay = document.getElementById('quantity-selector-overlay');
+        const checkoutForm = document.getElementById('checkout-form');
+        
+        // Quantity Selector Variables
+        let currentItem = null;
+        let currentQuantity = 1;
+        let currentPrice = 0;
+        
+        // Show cart summary panel
+        document.getElementById('proceed-to-payment').addEventListener('click', function() {
+            if (cartCount === 0) {
+                alert('Please add items to your cart before proceeding to payment.');
+                return;
+            }
+            updateOrderSummary();
+            document.body.style.overflow = 'hidden';
+            cartSummaryOverlay.classList.add('active');
+        });
+        
+        // Close cart summary panel
+        document.getElementById('close-cart-summary').addEventListener('click', function() {
+            closeCartSummary();
+        });
+        
+        // Back to cart button
+        document.getElementById('back-to-cart').addEventListener('click', function() {
+            closeCartSummary();
+        });
+        
+        // Place order button in cart summary
+        document.getElementById('place-order-btn').addEventListener('click', function() {
+            closeCartSummary();
+            checkoutOverlay.classList.add('active');
+        });
+        
+        // Update order summary in cart panel
+        function updateOrderSummary() {
+            const orderSummaryItems = document.getElementById('order-summary-items');
+            let itemsHTML = '';
+            let subtotal = 0;
+            
+            // Build cart items list
+            Object.entries(cart).forEach(([itemKey, item]) => {
+                const itemData = items[itemKey];
+                if (itemData && item.quantity > 0) {
+                    const itemTotal = item.price * item.quantity;
+                    subtotal += itemTotal;
+                    
+                    itemsHTML += `
+                        <div class="cart-item mb-2">
+                            <div class="d-flex justify-content-between">
+                                <div>
+                                    <strong>${itemData.name} x${item.quantity}</strong>
+                                </div>
+                                <div>Rs ${itemTotal.toLocaleString()}</div>
+                            </div>
+                        </div>
+                    `;
+                }
+            });
+            
+            orderSummaryItems.innerHTML = itemsHTML || '<p class="text-muted">No items in cart</p>';
+            
+            // Update totals
+            const tax = Math.round(subtotal * 0.13);
+            const delivery = 200;
+            const total = subtotal + tax + delivery;
+            
+            document.getElementById('summary-subtotal').textContent = `Rs ${subtotal.toLocaleString()}`;
+            document.getElementById('summary-tax').textContent = `Rs ${tax.toLocaleString()}`;
+            document.getElementById('summary-total').textContent = `Rs ${total.toLocaleString()}`;
+        }
+        
+        function closeCartSummary() {
+            cartSummaryOverlay.classList.remove('active');
+            document.body.style.overflow = '';
+        }
+        
+        // Close checkout panel
+        document.getElementById('close-checkout').addEventListener('click', function() {
+            closeCheckoutPanel();
+        });
+        
+        // Close when clicking outside the panel
+        checkoutOverlay.addEventListener('click', function(e) {
+            if (e.target === checkoutOverlay) {
+                closeCheckoutPanel();
+            }
+        });
+        
+        // Form validation and submission
+        const form = document.getElementById('checkout-form');
+        const formInputs = form.querySelectorAll('input, textarea, select');
+        const thankYouOverlay = document.getElementById('thank-you-overlay');
+        
+        // Real-time validation on input
+        formInputs.forEach(input => {
+            // Validate on blur (when user leaves the field)
+            input.addEventListener('blur', () => {
+                validateField(input);
+            });
+            
+            // Clear validation when user starts typing
+            input.addEventListener('input', () => {
+                if (input.validity.valid) {
+                    input.classList.remove('is-invalid');
+                } else {
+                    input.classList.add('was-validated');
+                }
+            });
+        });
+        
+        // Validate a single field with custom validation
+        function validateField(field) {
+            let isValid = true;
+            let errorMessage = '';
+            const value = field.value.trim();
+            
+            // Skip validation if field is not required and empty
+            if (!field.required && !value) {
+                field.classList.remove('is-invalid');
+                return true;
+            }
+            
+            // Field-specific validation
+            switch(field.id) {
+                case 'email':
+                    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+                    if (!emailRegex.test(value)) {
+                        errorMessage = 'Please enter a valid email address (e.g., example@domain.com)';
+                        isValid = false;
+                    }
+                    break;
+                    
+                case 'phone':
+                    // Remove any non-digit characters for validation
+                    const digitsOnly = value.replace(/\D/g, '');
+                    // International phone number validation (supports country codes)
+                    // - Must start with optional + or 00 followed by 1-3 digits (country code)
+                    // - Then 4-15 digits (including area code and number)
+                    // - Total length between 5-18 digits (including country code)
+                    if (digitsOnly.length < 5 || digitsOnly.length > 18) {
+                        errorMessage = 'Phone number must be 5-18 digits including country code';
+                        isValid = false;
+                    } else if (!/^[0-9+][0-9\s-]{4,17}$/.test(value)) {
+                        errorMessage = 'Enter a valid phone number with country code';
+                        isValid = false;
+                    }
+                    break;
+                    
+                case 'address':
+                    if (value.length < 10) {
+                        errorMessage = 'Address must be at least 10 characters long';
+                        isValid = false;
+                    }
+                    break;
+                    
+                case 'name':
+                    const nameRegex = /^[a-zA-Z\s]{3,50}$/;
+                    if (!nameRegex.test(value)) {
+                        errorMessage = 'Name must be 3-50 characters long and contain only letters and spaces';
+                        isValid = false;
+                    }
+                    break;
+            }
+            
+            // Update field state and error message
+            const errorElement = field.nextElementSibling;
+            if (errorElement && errorElement.classList.contains('invalid-feedback')) {
+                if (!isValid) {
+                    field.classList.add('is-invalid');
+                    errorElement.textContent = errorMessage || 'This field is required';
+                } else {
+                    field.classList.remove('is-invalid');
+                    errorElement.textContent = '';
+                }
+            }
+            
+            return isValid;
+        }
+        
+        // Validate entire form and show error messages
+        function validateForm() {
+            let isValid = true;
+            let firstInvalidField = null;
+            
+            formInputs.forEach(input => {
+                const fieldIsValid = validateField(input);
+                if (!fieldIsValid && !firstInvalidField) {
+                    firstInvalidField = input;
+                }
+                isValid = isValid && fieldIsValid;
+            });
+            
+            // Scroll to first invalid field if any
+            if (!isValid && firstInvalidField) {
+                firstInvalidField.scrollIntoView({
+                    behavior: 'smooth',
+                    block: 'center'
+                });
+                firstInvalidField.focus();
+                
+                // Show error message near the submit button
+                const submitButton = form.querySelector('button[type="submit"]');
+                if (submitButton) {
+                    let errorAlert = submitButton.previousElementSibling;
+                    if (!errorAlert || !errorAlert.classList.contains('alert-danger')) {
+                        errorAlert = document.createElement('div');
+                        errorAlert.className = 'alert alert-danger mt-3';
+                        errorAlert.role = 'alert';
+                        submitButton.parentNode.insertBefore(errorAlert, submitButton);
+                    }
+                    errorAlert.innerHTML = '<i class="bi bi-exclamation-triangle-fill me-2"></i> Please correct the errors in the form before submitting.';
+                }
+            } else {
+                // Remove any existing error alerts
+                const existingAlert = form.querySelector('.alert.alert-danger');
+                if (existingAlert) {
+                    existingAlert.remove();
+                }
+            }
+            
+            return isValid;
+        }
+        
+        // Real-time validation for form fields
+        const phoneInput = document.getElementById('phone');
+        const emailInput = document.getElementById('email');
+        const addressInput = document.getElementById('address');
+        const nameInput = document.getElementById('name');
+
+        // Validate international phone number as user types
+        if (phoneInput) {
+            phoneInput.addEventListener('input', function(e) {
+                // Allow +, digits, spaces, and hyphens
+                let phone = e.target.value.replace(/[^0-9+\s-]/g, '');
+                // Limit to 20 characters (including spaces and +)
+                e.target.value = phone.substring(0, 20);
+                validateField(e.target);
+            });
+            
+            // Add input mode for better mobile keyboard
+            phoneInput.setAttribute('inputmode', 'tel');
+            phoneInput.setAttribute('title', 'Enter phone number with country code');
+            
+            // Update placeholder and help text
+            phoneInput.placeholder = 'e.g., +1 234 567 8900';
+            
+            // Add help text if not already present
+            if (!document.getElementById('phoneHelp')) {
+                const helpText = document.createElement('div');
+                helpText.id = 'phoneHelp';
+                helpText.className = 'form-text';
+                helpText.textContent = 'Include country code (e.g., +1, +44, 00) at the start';
+                phoneInput.parentNode.insertBefore(helpText, phoneInput.nextSibling);
+            }
+        }
+
+        // Email validation
+        if (emailInput) {
+            emailInput.addEventListener('input', function(e) {
+                validateField(e.target);
+            });
+        }
+
+        // Address validation
+        if (addressInput) {
+            addressInput.addEventListener('input', function(e) {
+                validateField(e.target);
+            });
+        }
+
+        // Name validation
+        if (nameInput) {
+            nameInput.addEventListener('input', function(e) {
+                validateField(e.target);
+            });
+        }
+        
+        // Generate a unique order number
+        function generateOrderNumber() {
+            return 'FD' + Date.now().toString().slice(-6);
+        }
+
+        // Handle form submission
+        form.addEventListener('submit', function(e) {
+            e.preventDefault();
+            e.stopPropagation();
+            
+            // Add was-validated class to show validation messages
+            form.classList.add('was-validated');
+            
+            if (validateForm()) {
+                // Show loading state
+                const submitBtn = form.querySelector('button[type="submit"]');
+                const originalBtnText = submitBtn.innerHTML;
+                submitBtn.disabled = true;
+                submitBtn.innerHTML = '<span class="spinner-border spinner-border-sm me-2" role="status" aria-hidden="true"></span>Processing...';
+                
+                // Get form data
+                const formData = new FormData(form);
+                const formValues = Object.fromEntries(formData.entries());
+                
+                // Get cart items
+                const cartItems = [];
+                Object.entries(cart).forEach(([itemKey, item]) => {
+                    cartItems.push({
+                        name: item.name,
+                        price: item.price,
+                        quantity: item.quantity,
+                        total: item.price * item.quantity
+                    });
+                });
+                
+                // Calculate order total
+                const orderTotal = Object.values(cart).reduce((total, item) => {
+                    return total + (item.price * item.quantity);
+                }, 0);
+                
+                // Create order object
+                const orderNumber = generateOrderNumber();
+                const orderDetails = {
+                    orderNumber: orderNumber,
+                    date: new Date().toISOString(),
+                    customer: {
+                        name: formValues.name,
+                        email: formValues.email,
+                        phone: formValues.phone,
+                        address: formValues.address,
+                        city: formValues.city,
+                        paymentMethod: formValues.paymentMethod
+                    },
+                    items: cartItems,
+                    subtotal: orderTotal,
+                    tax: orderTotal * 0.15, // 15% tax
+                    total: orderTotal * 1.15, // subtotal + tax
+                    status: 'Processing'
+                };
+                
+                // Send order to the server using session-based endpoint
+                fetch('submit_order_session.php', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({
+                        customer_name: orderDetails.customer.name,
+                        phone: orderDetails.customer.phone,
+                        email: orderDetails.customer.email,
+                        address: `${orderDetails.customer.address}, ${orderDetails.customer.city}`,
+                        payment_method: orderDetails.customer.paymentMethod,
+                        total_amount: orderDetails.total,
+                        items: orderDetails.items
+                    })
+                })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.success) {
+                        // Clear the cart on success
+                        Object.keys(cart).forEach(key => delete cart[key]);
+                        localStorage.setItem('foodiesCart', JSON.stringify(cart));
+                        updateCartDisplay();
+                        
+                        // Redirect to order confirmation page with the server-generated order ID
+                        window.location.href = data.redirect;
+                    } else {
+                        throw new Error(data.message || 'Failed to process order');
+                    }
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                    alert('There was an error processing your order. Please try again.');
+                    submitBtn.disabled = false;
+                    submitBtn.innerHTML = originalBtnText;
+                });
+                
+            } else {
+                // Scroll to first invalid field
+                const firstInvalid = form.querySelector('.is-invalid');
+                if (firstInvalid) {
+                    firstInvalid.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                }
+            }
+        });
+        
+        function closeCheckoutPanel() {
+            checkoutOverlay.classList.remove('active');
+            document.body.style.overflow = '';
+        }
+        
+        function showThankYouMessage() {
+            // This function is kept for backward compatibility
+            // but the actual order processing is now handled in the form submit handler
+            thankYouOverlay.classList.add('active');
+            document.body.style.overflow = 'hidden';
+        }
+        
+        // Back to home button
+        document.getElementById('back-to-home').addEventListener('click', function() {
+            thankYouOverlay.classList.remove('active');
+            document.body.style.overflow = '';
+            window.location.href = 'traditional-home.html';
+        });
+        
+        // Quantity Selector Functions
+        function showQuantitySelector(itemKey, itemName, price) {
+            currentItem = itemKey;
+            currentPrice = price;
+            currentQuantity = 1;
+            
+            document.getElementById('selected-item-name').textContent = itemName;
+            document.getElementById('quantity-display').textContent = '1';
+            document.getElementById('item-total-price').textContent = `Rs ${price.toLocaleString()}`;
+            
+            document.body.style.overflow = 'hidden';
+            quantitySelectorOverlay.classList.add('active');
+        }
+        
+        function closeQuantitySelector() {
+            quantitySelectorOverlay.classList.remove('active');
+            document.body.style.overflow = '';
+        }
+        
+        // Update item quantity and price
+        function updateQuantityDisplay() {
+            document.getElementById('quantity-display').textContent = currentQuantity;
+            document.getElementById('item-total-price').textContent = 
+                `Rs ${(currentQuantity * currentPrice).toLocaleString()}`;
+        }
+        
+        // Event Listeners for Quantity Selector
+        document.getElementById('increase-qty').addEventListener('click', function() {
+            currentQuantity++;
+            updateQuantityDisplay();
+        });
+        
+        document.getElementById('decrease-qty').addEventListener('click', function() {
+            if (currentQuantity > 1) {
+                currentQuantity--;
+                updateQuantityDisplay();
+            }
+        });
+        
+        // Close quantity selector
+        document.getElementById('close-quantity-selector').addEventListener('click', closeQuantitySelector);
+        
+        // Add to cart from quantity selector
+        document.getElementById('add-to-cart-btn').addEventListener('click', function() {
+            if (currentItem) {
+                addToCart(currentItem, currentPrice, currentQuantity);
+                closeQuantitySelector();
+                
+                // Show feedback
+                const itemName = document.getElementById('selected-item-name').textContent;
+                showAddToCartFeedback(currentItem, currentQuantity);
+            }
+        });
+        
+        // Update all add to cart buttons to use quantity selector
+        document.querySelectorAll('.add-to-cart-btn').forEach(button => {
+            button.addEventListener('click', function() {
+                const itemKey = this.getAttribute('data-item');
+                const itemName = this.getAttribute('data-name');
+                const price = parseInt(this.getAttribute('data-price'));
+                showQuantitySelector(itemKey, itemName, price);
+            });
+        });
+        
+        // Simple GSAP Animations on page load
+        document.addEventListener('DOMContentLoaded', function() {
+            // Load cart from localStorage
+            updateCartDisplay();
+            // Animate panel entrance
+            gsap.from('.panel-container', {
+                duration: 1.2,
+                y: 50,
+                opacity: 0,
+                ease: 'power3.out'
+            });
+            
+            // Animate columns with stagger
+            gsap.from('.column', {
+                duration: 0.8,
+                y: 30,
+                opacity: 0,
+                stagger: 0.2,
+                delay: 0.3,
+                ease: 'power2.out'
+            });
+            
+            // Animate dashboard items (excluding header)
+            gsap.from('.dashboard-item:not(.column-header)', {
+                duration: 0.6,
+                x: -20,
+                opacity: 0,
+                stagger: 0.1,
+                delay: 0.8,
+                ease: 'power2.out'
+            });
+            
+            // Animate category items
+            gsap.from('.category-item', {
+                duration: 0.6,
+                scale: 0.9,
+                opacity: 0,
+                stagger: 0.1,
+                delay: 1,
+                ease: 'back.out(1.7)'
+            });
+            
+            // Animate cart section
+            gsap.from('.cart-section, .total-section', {
+                duration: 0.8,
+                y: 20,
+                opacity: 0,
+                stagger: 0.2,
+                delay: 1.2,
+                ease: 'power2.out'
+            });
+        });
+        
+        // Add hover animations
+        document.addEventListener('mouseenter', function(e) {
+            if (e.target.closest('.dashboard-item:not(.column-header)')) {
+                gsap.to(e.target.closest('.dashboard-item'), {
+                    duration: 0.3,
+                    x: 5,
+                    ease: 'power2.out'
+                });
+            }
+            
+            if (e.target.closest('.category-item')) {
+                gsap.to(e.target.closest('.category-item'), {
+                    duration: 0.3,
+                    y: -2,
+                    ease: 'power2.out'
+                });
+            }
+            
+            if (e.target.closest('.add-btn')) {
+                gsap.to(e.target.closest('.add-btn'), {
+                    duration: 0.2,
+                    scale: 1.1,
+                    ease: 'power2.out'
+                });
+            }
+        }, true);
+        
+        document.addEventListener('mouseleave', function(e) {
+            if (e.target.closest('.dashboard-item')) {
+                gsap.to(e.target.closest('.dashboard-item'), {
+                    duration: 0.3,
+                    x: 0,
+                    ease: 'power2.out'
+                });
+            }
+            
+            if (e.target.closest('.category-item')) {
+                gsap.to(e.target.closest('.category-item'), {
+                    duration: 0.3,
+                    y: 0,
+                    ease: 'power2.out'
+                });
+            }
+            
+            if (e.target.closest('.add-btn')) {
+                gsap.to(e.target.closest('.add-btn'), {
+                    duration: 0.2,
+                    scale: 1,
+                    ease: 'power2.out'
+                });
+            }
+        }, true);
+        
+        // Branch selection animation
+        document.addEventListener('click', function(e) {
+            if (e.target.closest('.branch-option')) {
+                e.preventDefault();
+                
+                // Remove active class from all branches
+                document.querySelectorAll('.branch-option').forEach(branch => {
+                    branch.classList.remove('active');
+                });
+                
+                // Add active class to clicked branch
+                e.target.closest('.branch-option').classList.add('active');
+                
+                // Animate selection
+                gsap.to(e.target.closest('.branch-option'), {
+                    duration: 0.3,
+                    scale: 1.05,
+                    yoyo: true,
+                    repeat: 1,
+                    ease: 'power2.inOut'
+                });
+            }
+        });
+    </script>
+</body>
+</html>

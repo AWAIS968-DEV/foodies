@@ -1,0 +1,489 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Foodies - 5 Star Restaurant</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Custom CSS -->
+    <style>
+    /* Debug styles to ensure buttons remain visible */
+    .navbar .btn-outline-light,
+    .navbar .btn-warning,
+    .hero-section .btn-warning {
+      position: relative !important;
+      z-index: 9999 !important;
+      opacity: 1 !important;
+      visibility: visible !important;
+      display: inline-block !important;
+    }
+    
+    /* Add any additional custom styles here */
+  </style>
+    <link rel="stylesheet" href="style.css">
+    <!-- GSAP Animation -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+    <!-- jQuery -->
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+    <!-- Bootstrap Icons -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
+
+</head>
+<body>
+    <!-- Navbar -->
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+      <div class="container-fluid">
+        <a class="navbar-brand d-lg-none" href="#">Foodies</a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+          <div class="d-flex flex-column flex-lg-row align-items-center w-100">
+            <a class="navbar-brand d-none d-lg-block me-lg-auto" href="#">Foodies</a>
+            <ul class="navbar-nav mx-auto mb-2 mb-lg-0 text-center">
+              <li class="nav-item"><a class="nav-link active" href="traditional-home.html">Home</a></li>
+              <li class="nav-item"><a class="nav-link" href="order-panel.html">Order Now</a></li>
+              <li class="nav-item"><a class="nav-link" href="about.html">About</a></li>
+              <li class="nav-item"><a class="nav-link" href="contact.html">Contact</a></li>
+            </ul>
+            <div class="d-flex ms-lg-auto mt-3 mt-lg-0 gap-2">
+              <button type="button" class="btn btn-outline-light px-3 fw-medium" data-bs-toggle="modal" data-bs-target="#loginModal">
+                <i class="bi bi-box-arrow-in-right me-1"></i> Login
+              </button>
+              <button type="button" class="btn btn-warning px-4 fw-medium" data-bs-toggle="modal" data-bs-target="#signupModal">
+                <i class="bi bi-person-plus me-1"></i> Sign Up
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <header class="hero-section text-center text-white d-flex align-items-center justify-content-center" style="background-image: url('https://images.unsplash.com/photo-1504674900247-0877df9cc836?auto=format&fit=crop&w=1500&q=80'); height: 90vh; background-size: cover; background-position: center;">
+      <div class="container">
+        <h1 class="display-3 fw-bold" id="hero-title">Welcome to Foodies</h1>
+        <p class="lead mb-4" id="hero-desc">Experience 5-Star Dining Like Never Before</p>
+        <a href="order-panel.html" class="btn btn-warning btn-lg">Order Now</a>
+        <div class="mt-4">
+          <span class="fs-3">★★★★★</span>
+        </div>
+      </div>
+    </header>
+
+    <!-- Featured Recipes Section -->
+    <section class="featured-recipes-section">
+      <div class="featured-recipes-container">
+        <h2 class="featured-recipes-title">Featured Recipes</h2>
+        <div id="featured-recipes">
+          <!-- Recipe Card 1 -->
+          <div class="col-md-6 col-lg-4">
+            <div class="card recipe-card h-100 shadow-lg border-0">
+              <img src="images/stuff.jpg" class="card-img-top img-fluid rounded-top recipe-img" alt="Stuffed Chicken Breast">      
+              <div class="card-body">
+                <h5 class="card-title fw-bold">Stuffed Chicken Breast</h5>
+                <p class="card-text">Chicken fillets with a cheese & spinach stuffing, served with sautéed vegetables, mash potatoes and creamy sauce.</p>
+                <div class="d-flex align-items-center justify-content-between mt-3">
+                  <span class="fw-semibold text-success">Rs 1,995</span>
+                  <span class="badge bg-warning text-dark fs-6">★★★★★</span>
+                </div>
+              </div>
+            </div>
+          </div>
+          <!-- Recipe Card 2 -->
+          <div class="col-md-6 col-lg-4">
+            <div class="card recipe-card h-100 shadow-lg border-0">
+              <img src="images/gourmet-seafood-appetizer-with-fresh-tomato-sauce-generated-by-ai.jpg" class="card-img-top img-fluid rounded-top recipe-img" alt="Chicken Steak">              
+              <div class="card-body">
+                <h5 class="card-title fw-bold">Chicken Steak</h5>
+                <p class="card-text">Two juicy grilled chicken fillets served with mash potatoes, sautéed vegetables topped with Moroccan sauce.</p>
+                <div class="d-flex align-items-center justify-content-between mt-3">
+                  <span class="fw-semibold text-success">Rs 1,995</span>
+                  <span class="badge bg-warning text-dark fs-6">★★★★★</span>
+                </div>
+              </div>
+            </div>
+          </div>
+          <!-- Recipe Card 3 -->
+          <div class="col-md-6 col-lg-4">
+            <div class="card recipe-card h-100 shadow-lg border-0">
+              <img src="images/italian-food.jpg" class="card-img-top img-fluid rounded-top recipe-img" alt="Chicken Steak">              
+              <div class="card-body">
+                <h5 class="card-title fw-bold">Stroganoff Marrow Pasta</h5>
+                <p class="card-text">A rich and sour cream gravy cooked in our house broth; served with slices of beef tenderloin and pasta.</p>
+                <div class="d-flex align-items-center justify-content-between mt-3">
+                  <span class="fw-semibold text-success">Rs 1,895</span>
+                  <span class="badge bg-warning text-dark fs-6">★★★★★</span>
+                </div>
+              </div>
+            </div>
+          </div>
+          <!-- Recipe Card 4 -->
+          <div class="col-md-6 col-lg-4">
+            <div class="card recipe-card h-100 shadow-lg border-0">
+              <img src="images/homemade-food-party.jpg" class="card-img-top img-fluid rounded-top recipe-img" alt="Chicken Steak">              
+              <div class="card-body">
+                <h5 class="card-title fw-bold">Mutton Chops</h5>
+                <p class="card-text">Succulent mutton chops marinated and grilled to perfection. Served with roasted baby potatoes, sautéed vegetables and mint sauce.</p>
+                <div class="d-flex align-items-center justify-content-between mt-3">
+                  <span class="fw-semibold text-success">Rs 3,995</span>
+                  <span class="badge bg-warning text-dark fs-6">★★★★★</span>
+                </div>
+              </div>
+            </div>
+          </div>
+          <!-- Recipe Card 5 -->
+          <div class="col-md-6 col-lg-4">
+            <div class="card recipe-card h-100 shadow-lg border-0">
+              <img src="images/salsa.jpg" class="card-img-top img-fluid rounded-top recipe-img" alt="Chicken Steak">        
+              <div class="card-body">
+                <h5 class="card-title fw-bold">Salsa Verde Chicken</h5>
+                <p class="card-text">Grilled chicken fillets marinated in a coriander, lime, jalapeno and herb sauce. Served on a bed of grilled vegetables.</p>
+                <div class="d-flex align-items-center justify-content-between mt-3">
+                  <span class="fw-semibold text-success">Rs 1,995</span>
+                  <span class="badge bg-warning text-dark fs-6">★★★★★</span>
+                </div>
+              </div>
+            </div>
+          </div>
+          <!-- Recipe Card 6 -->
+          <div class="col-md-6 col-lg-4">
+            <div class="card recipe-card h-100 shadow-lg border-0">
+              <img src="images/buffalo.jpg" class="card-img-top img-fluid rounded-top recipe-img" alt="Chicken Steak">              <div class="card-body">
+                <h5 class="card-title fw-bold">Buffalo Chicken</h5>
+                <p class="card-text">24 hour marinated chicken in our in-house buffalo sauce. A perfect blend of spice and herbs, served with ranch dip.</p>
+                <div class="d-flex align-items-center justify-content-between mt-3">
+                  <span class="fw-semibold text-success">From Rs 2,395</span>
+                  <span class="badge bg-warning text-dark fs-6">★★★★★</span>
+                </div>
+              </div>
+            </div>
+          </div>
+          <!-- Recipe Card 7 -->
+          <div class="col-md-6 col-lg-4">
+            <div class="card recipe-card h-100 shadow-lg border-0">
+              <img src="images/fish.jpg" class="card-img-top img-fluid rounded-top recipe-img" alt="Chicken Steak">              <div class="card-body">
+                <h5 class="card-title fw-bold">Grilled Red Snapper With Coconut Sauce</h5>
+                <p class="card-text">Grilled red snapper fillet served a bed of spinach and garlic rice, topped with a coconut curry sauce.</p>
+                <div class="d-flex align-items-center justify-content-between mt-3">
+                  <span class="fw-semibold text-success">Rs 2,695</span>
+                  <span class="badge bg-warning text-dark fs-6">★★★★★</span>
+                </div>
+              </div>
+            </div>
+          </div>
+          <!-- Recipe Card 8 -->
+          <div class="col-md-6 col-lg-4">
+            <div class="card recipe-card h-100 shadow-lg border-0">
+              <img src="images/spaghetti-with-spicy-mixed-seafood-dark-background.jpg" class="card-img-top img-fluid rounded-top recipe-img" alt="Seafood Pasta">
+              <div class="card-body">
+                <h5 class="card-title fw-bold">Seafood Pasta</h5>
+                <p class="card-text">Fresh seafood medley with linguine pasta in a rich garlic white wine sauce, topped with parmesan cheese.</p>
+                <div class="d-flex align-items-center justify-content-between mt-3">
+                  <span class="fw-semibold text-success">Rs 2,495</span>
+                  <span class="badge bg-warning text-dark fs-6">★★★★★</span>
+                </div>
+              </div>
+            </div>
+          </div>
+          <!-- Recipe Card 9 -->
+          <div class="col-md-6 col-lg-4">
+            <div class="card recipe-card h-100 shadow-lg border-0">
+              <img src="images/unprepared-chicken-legs-with-lettuce-white-plate.jpg" class="card-img-top img-fluid rounded-top recipe-img" alt="Butchers Chicken">
+              <div class="card-body">
+                <h5 class="card-title fw-bold">Butchers Chicken</h5>
+                <p class="card-text">Herb fried chicken thigh served with creamy spinach, tapenade vegetables and creamy spinach sauce.</p>
+                <div class="d-flex align-items-center justify-content-between mt-3">
+                  <span class="fw-semibold text-success">Rs 1,995</span>
+                  <span class="badge bg-warning text-dark fs-6">★★★★★</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Recipe Panel Modal -->
+    <div id="recipePanel" class="recipe-panel-overlay panel-hidden">
+      <div class="recipe-panel-container">
+        <div class="recipe-panel-header">
+          <h3><i class="bi bi-basket3"></i> Recipe Selection Panel</h3>
+          <button class="btn-close-panel" id="closePanelBtn">
+            <i class="bi bi-x-lg"></i>
+          </button>
+        </div>
+        
+        <div class="recipe-panel-content">
+          <!-- Column 1: Dashboard -->
+          <div class="panel-column dashboard-column">
+            <h4><i class="bi bi-speedometer2"></i> Dashboard</h4>
+            <div class="dashboard-items">
+              <div class="dashboard-item">
+                <i class="bi bi-house-door"></i>
+                <span>Home</span>
+              </div>
+              <div class="dashboard-item">
+                <i class="bi bi-journal-bookmark"></i>
+                <span>Menu</span>
+              </div>
+              <div class="dashboard-item">
+                <i class="bi bi-info-circle"></i>
+                <span>About</span>
+              </div>
+              <div class="dashboard-item">
+                <i class="bi bi-telephone"></i>
+                <span>Contact</span>
+              </div>
+              <div class="dashboard-item">
+                <i class="bi bi-star-fill"></i>
+                <span>Reviews</span>
+              </div>
+              <div class="dashboard-item">
+                <i class="bi bi-gear"></i>
+                <span>Settings</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Column 2: Branches & Categories -->
+          <div class="panel-column categories-column">
+            <!-- Branches Section -->
+            <div class="section-container">
+              <h4><i class="bi bi-geo-alt"></i> Our Branches</h4>
+              <div class="branches-list">
+                <div class="branch-item active" data-branch="main">
+                  <i class="bi bi-building"></i>
+                  <span>Main Branch - Downtown</span>
+                </div>
+                <div class="branch-item" data-branch="north">
+                  <i class="bi bi-building"></i>
+                  <span>North Branch - Mall</span>
+                </div>
+                <div class="branch-item" data-branch="south">
+                  <i class="bi bi-building"></i>
+                  <span>South Branch - Plaza</span>
+                </div>
+              </div>
+            </div>
+
+            <!-- Categories Section -->
+            <div class="section-container">
+              <h4><i class="bi bi-grid-3x3-gap"></i> Recipe Categories</h4>
+              <div class="categories-list">
+                <div class="category-item" data-category="chicken">
+                  <i class="bi bi-egg-fried"></i>
+                  <span>Chicken Dishes</span>
+                  <span class="item-count">0</span>
+                </div>
+                <div class="category-item" data-category="seafood">
+                  <i class="bi bi-water"></i>
+                  <span>Seafood</span>
+                  <span class="item-count">0</span>
+                </div>
+                <div class="category-item" data-category="pasta">
+                  <i class="bi bi-cup-hot"></i>
+                  <span>Pasta & Italian</span>
+                  <span class="item-count">0</span>
+                </div>
+                <div class="category-item" data-category="grilled">
+                  <i class="bi bi-fire"></i>
+                  <span>Grilled Items</span>
+                  <span class="item-count">0</span>
+                </div>
+                <div class="category-item" data-category="appetizers">
+                  <i class="bi bi-cup-straw"></i>
+                  <span>Appetizers</span>
+                  <span class="item-count">0</span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Column 3: Cart & Payment -->
+          <div class="panel-column cart-column">
+            <h4><i class="bi bi-cart3"></i> Your Order</h4>
+            <div class="cart-summary">
+              <div class="total-items">
+                <span>Total Items: </span>
+                <span id="totalItemsCount">0</span>
+              </div>
+              <div class="selected-items-list" id="selectedItemsList">
+                <p class="empty-cart-msg">No items selected yet</p>
+              </div>
+              <div class="cart-total">
+                <div class="subtotal">
+                  <span>Subtotal: </span>
+                  <span id="subtotalAmount">Rs 0</span>
+                </div>
+                <div class="tax">
+                  <span>Tax (10%): </span>
+                  <span id="taxAmount">Rs 0</span>
+                </div>
+                <div class="total">
+                  <span>Total: </span>
+                  <span id="totalAmount">Rs 0</span>
+                </div>
+              </div>
+              <div class="payment-section">
+                <button class="btn btn-success btn-lg pay-btn" id="payBtn" disabled>
+                  <i class="bi bi-credit-card"></i>
+                  Pay Now
+                </button>
+                <button class="btn btn-outline-secondary btn-sm clear-cart-btn" id="clearCartBtn">
+                  <i class="bi bi-trash"></i>
+                  Clear Cart
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Login Modal -->
+    <div class="modal fade" id="loginModal" tabindex="-1" aria-labelledby="loginModalLabel" aria-hidden="true">
+      <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="loginModalLabel">Login to Your Account</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+          <form action="login.php" method="post">
+            <div class="modal-body">
+              <div class="mb-3">
+                <label for="loginEmail" class="form-label">Email address</label>
+                <input type="email" class="form-control" id="loginEmail" name="email" required>
+              </div>
+              <div class="mb-3">
+                <label for="loginPassword" class="form-label">Password</label>
+                <input type="password" class="form-control" id="loginPassword" name="password" required>
+              </div>
+              <div class="d-flex justify-content-between align-items-center mb-3">
+                <div class="form-check">
+                  <input type="checkbox" class="form-check-input" id="rememberMe">
+                  <label class="form-check-label" for="rememberMe">Remember me</label>
+                </div>
+                <a href="#" class="text-decoration-none">Forgot password?</a>
+              </div>
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+              <button type="submit" class="btn btn-warning">Login</button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+
+    <!-- Signup Modal -->
+    <div class="modal fade" id="signupModal" tabindex="-1" aria-labelledby="signupModalLabel" aria-hidden="true">
+      <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="signupModalLabel">Create an Account</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+          <form action="register.php" method="post">
+            <div class="modal-body">
+              <div class="row">
+                <div class="col-md-6 mb-3">
+                  <label for="firstName" class="form-label">First Name</label>
+                  <input type="text" class="form-control" id="firstName" name="first_name" required>
+                </div>
+                <div class="col-md-6 mb-3">
+                  <label for="lastName" class="form-label">Last Name</label>
+                  <input type="text" class="form-control" id="lastName" name="last_name" required>
+                </div>
+              </div>
+              <div class="mb-3">
+                <label for="signupEmail" class="form-label">Email address</label>
+                <input type="email" class="form-control" id="signupEmail" name="email" required>
+              </div>
+              <div class="mb-3">
+                <label for="signupPassword" class="form-label">Password</label>
+                <input type="password" class="form-control" id="signupPassword" name="password" required>
+              </div>
+              <div class="mb-3">
+                <label for="confirmPassword" class="form-label">Confirm Password</label>
+                <input type="password" class="form-control" id="confirmPassword" name="confirm_password" required>
+              </div>
+              <div class="form-check mb-3">
+                <input class="form-check-input" type="checkbox" id="termsCheck" required>
+                <label class="form-check-label" for="termsCheck">
+                  I agree to the <a href="#" class="text-decoration-none">Terms & Conditions</a>
+                </label>
+              </div>
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+              <button type="submit" class="btn btn-warning">Sign Up</button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="bg-dark text-white py-4 mt-5">
+      <div class="container text-center">
+        <p class="mb-1">&copy; 2025 Foodies Restaurant. All Rights Reserved.</p>
+        <span class="fs-5">★★★★★</span>
+      </div>
+    </footer>
+
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+    <!-- GSAP Animations -->
+    <script>
+      // Debug script to track button visibility
+      document.addEventListener('DOMContentLoaded', function() {
+        // Log initial state of buttons
+        const loginBtn = document.querySelector('.navbar .btn-outline-light');
+        const signupBtn = document.querySelector('.navbar .btn-warning');
+        const orderNowBtn = document.querySelector('.hero-section .btn-warning');
+        
+        console.log('Initial button states:');
+        console.log('Login button:', loginBtn);
+        console.log('Signup button:', signupBtn);
+        console.log('Order Now button:', orderNowBtn);
+        
+        // Check if buttons are in the DOM
+        if (!loginBtn || !signupBtn || !orderNowBtn) {
+          console.error('One or more buttons are missing from the DOM');
+        }
+        
+        // Monitor for changes to button visibility
+        const observer = new MutationObserver(function(mutations) {
+          mutations.forEach(function(mutation) {
+            if (mutation.type === 'attributes' && 
+                (mutation.attributeName === 'style' || 
+                 mutation.attributeName === 'class')) {
+              console.log('Button styles changed:', mutation.target);
+              console.log('Current styles:', window.getComputedStyle(mutation.target));
+            }
+          });
+        });
+        
+        // Observe all buttons
+        [loginBtn, signupBtn, orderNowBtn].forEach(btn => {
+          if (btn) {
+            observer.observe(btn, { 
+              attributes: true, 
+              attributeFilter: ['style', 'class'],
+              childList: false,
+              subtree: false 
+            });
+          }
+        });
+        
+        // Log any errors during page load
+        window.addEventListener('error', function(e) {
+          console.error('Page error:', e.message, e.filename, 'line:', e.lineno);
+        });
+      });
+    </script>
+    <script src="main.js"></script>
+</body>
+</html>

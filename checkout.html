@@ -1,0 +1,507 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Checkout - Foodies</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Bootstrap Icons -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
+    <style>
+        body {
+            font-family: 'Segoe UI', 'Roboto', 'Arial', sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px 0;
+        }
+
+        .checkout-container {
+            max-width: 900px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.1);
+            overflow: hidden;
+        }
+
+        .checkout-header {
+            background: linear-gradient(135deg, #28a745, #20c997);
+            color: white;
+            padding: 30px;
+            text-align: center;
+        }
+
+        .checkout-content {
+            padding: 40px;
+        }
+
+        .section-header {
+            font-size: 1.3rem;
+            font-weight: bold;
+            color: #2c3e50;
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid #e9ecef;
+        }
+
+        .form-section {
+            background: #f8f9fa;
+            border-radius: 15px;
+            padding: 25px;
+            margin-bottom: 30px;
+        }
+
+        .order-summary {
+            background: #e9ecef;
+            border-radius: 15px;
+            padding: 25px;
+        }
+
+        .summary-item {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 10px;
+            padding: 5px 0;
+        }
+
+        .summary-item.total {
+            border-top: 2px solid #dee2e6;
+            padding-top: 15px;
+            margin-top: 15px;
+            font-size: 1.2rem;
+            font-weight: bold;
+        }
+
+        .payment-method {
+            border: 2px solid #dee2e6;
+            border-radius: 10px;
+            padding: 15px;
+            margin-bottom: 15px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .payment-method:hover {
+            border-color: #007bff;
+            background: #f8f9fa;
+        }
+
+        .payment-method.selected {
+            border-color: #28a745;
+            background: #d4edda;
+        }
+
+        .place-order-btn {
+            width: 100%;
+            padding: 18px;
+            background: linear-gradient(135deg, #28a745, #20c997);
+            color: white;
+            border: none;
+            border-radius: 15px;
+            font-size: 1.3rem;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .place-order-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 25px rgba(40, 167, 69, 0.3);
+        }
+
+        .security-info {
+            background: #d1ecf1;
+            border: 1px solid #bee5eb;
+            border-radius: 10px;
+            padding: 15px;
+            margin-top: 20px;
+            text-align: center;
+        }
+
+        .back-link {
+            color: #6c757d;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            margin-bottom: 20px;
+            transition: color 0.3s ease;
+        }
+
+        .back-link:hover {
+            color: #007bff;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="checkout-container">
+            <div class="checkout-header">
+                <h2><i class="bi bi-credit-card me-2"></i> Secure Checkout</h2>
+                <p class="mb-0">Complete your order safely and securely</p>
+            </div>
+
+            <div class="checkout-content">
+                <a href="cart-view.html" class="back-link">
+                    <i class="bi bi-arrow-left me-2"></i> Back to Cart
+                </a>
+
+                <form id="checkout-form" method="post" action="order-confirmation.html">
+                    <div class="row">
+                        <!-- Left Column: Forms -->
+                        <div class="col-lg-7">
+                            <!-- Delivery Information -->
+                            <div class="form-section">
+                                <div class="section-header">
+                                    <i class="bi bi-truck me-2"></i> Delivery Information
+                                </div>
+                                
+                                <div class="row">
+                                    <div class="col-md-6 mb-3">
+                                        <label class="form-label">First Name *</label>
+                                        <input type="text" class="form-control" name="firstName" required>
+                                    </div>
+                                    <div class="col-md-6 mb-3">
+                                        <label class="form-label">Last Name *</label>
+                                        <input type="text" class="form-control" name="lastName" required>
+                                    </div>
+                                </div>
+                                
+                                <div class="mb-3">
+                                    <label class="form-label">Phone Number *</label>
+                                    <input type="tel" class="form-control" name="phone" required>
+                                </div>
+                                
+                                <div class="mb-3">
+                                    <label class="form-label">Delivery Address *</label>
+                                    <textarea class="form-control" name="address" rows="3" required></textarea>
+                                </div>
+                                
+                                <div class="row">
+                                    <div class="col-md-6 mb-3">
+                                        <label class="form-label">City *</label>
+                                        <input type="text" class="form-control" name="city" required>
+                                    </div>
+                                    <div class="col-md-6 mb-3">
+                                        <label class="form-label">Postal Code</label>
+                                        <input type="text" class="form-control" name="postalCode">
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Payment Method -->
+                            <div class="form-section">
+                                <div class="section-header">
+                                    <i class="bi bi-credit-card me-2"></i> Payment Method
+                                </div>
+                                
+                                <div class="payment-method selected" data-method="card">
+                                    <div class="d-flex align-items-center">
+                                        <input type="radio" name="paymentMethod" value="card" checked class="me-3">
+                                        <div>
+                                            <strong><i class="bi bi-credit-card me-2"></i> Credit/Debit Card</strong>
+                                            <div class="text-muted small">Visa, Mastercard, American Express</div>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                <div class="payment-method" data-method="cash">
+                                    <div class="d-flex align-items-center">
+                                        <input type="radio" name="paymentMethod" value="cash" class="me-3">
+                                        <div>
+                                            <strong><i class="bi bi-cash me-2"></i> Cash on Delivery</strong>
+                                            <div class="text-muted small">Pay when your order arrives</div>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                <div class="payment-method" data-method="bank">
+                                    <div class="d-flex align-items-center">
+                                        <input type="radio" name="paymentMethod" value="bank" class="me-3">
+                                        <div>
+                                            <strong><i class="bi bi-bank me-2"></i> Bank Transfer</strong>
+                                            <div class="text-muted small">Direct bank account transfer</div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- Card Details (shown when card is selected) -->
+                                <div id="card-details" class="mt-4">
+                                    <div class="row">
+                                        <div class="col-12 mb-3">
+                                            <label class="form-label">Card Number *</label>
+                                            <input type="text" class="form-control" name="cardNumber" placeholder="1234 5678 9012 3456">
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-md-6 mb-3">
+                                            <label class="form-label">Expiry Date *</label>
+                                            <input type="text" class="form-control" name="expiryDate" placeholder="MM/YY">
+                                        </div>
+                                        <div class="col-md-6 mb-3">
+                                            <label class="form-label">CVV *</label>
+                                            <input type="text" class="form-control" name="cvv" placeholder="123">
+                                        </div>
+                                    </div>
+                                    <div class="mb-3">
+                                        <label class="form-label">Cardholder Name *</label>
+                                        <input type="text" class="form-control" name="cardholderName">
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Special Instructions -->
+                            <div class="form-section">
+                                <div class="section-header">
+                                    <i class="bi bi-chat-text me-2"></i> Special Instructions
+                                </div>
+                                <textarea class="form-control" name="instructions" rows="3" placeholder="Any special requests or delivery instructions..."></textarea>
+                            </div>
+                        </div>
+
+                        <!-- Right Column: Order Summary -->
+                        <div class="col-lg-5">
+                            <div class="order-summary">
+                                <div class="section-header">
+                                    <i class="bi bi-receipt me-2"></i> Order Summary
+                                </div>
+                                
+                                <!-- Order Items -->
+                                <div class="mb-4" id="order-items">
+                                    <!-- Dynamic cart items will be loaded here -->
+                                </div>
+
+                                <!-- Pricing Breakdown -->
+                                <div class="summary-item">
+                                    <span>Subtotal (<span id="item-count">0</span> items):</span>
+                                    <span id="subtotal-amount">Rs 0</span>
+                                </div>
+                                <div class="summary-item">
+                                    <span>Tax (13%):</span>
+                                    <span id="tax-amount">Rs 0</span>
+                                </div>
+                                <div class="summary-item">
+                                    <span>Delivery Fee:</span>
+                                    <span id="delivery-amount">Rs 0</span>
+                                </div>
+                                <div class="summary-item total">
+                                    <span>Total:</span>
+                                    <span id="total-amount">Rs 0</span>
+                                </div>
+
+                                <!-- Delivery Info -->
+                                <div class="mt-4 p-3 bg-light rounded">
+                                    <div class="d-flex align-items-center mb-2">
+                                        <i class="bi bi-clock me-2 text-primary"></i>
+                                        <strong>Estimated Delivery: 30-45 minutes</strong>
+                                    </div>
+                                    <div class="d-flex align-items-center">
+                                        <i class="bi bi-geo-alt me-2 text-success"></i>
+                                        <span>Downtown Branch</span>
+                                    </div>
+                                </div>
+
+                                <!-- Place Order Button -->
+                                <button type="submit" class="place-order-btn mt-4" id="place-order-btn">
+                                    <i class="bi bi-check-circle me-2"></i> Place Order - <span id="order-total">Rs 0</span>
+                                </button>
+
+                                <!-- Security Info -->
+                                <div class="security-info">
+                                    <small>
+                                        <i class="bi bi-shield-check me-1"></i>
+                                        Your payment information is encrypted and secure.<br>
+                                        <i class="bi bi-telephone me-1"></i>
+                                        Need help? Call us at +92-XXX-XXXXXXX
+                                    </small>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+
+    <script>
+        // Item database (same as order panel)
+        const items = {
+            'stuffed-chicken': { name: 'Stuffed Chicken Breast', price: 1995 },
+            'seafood-pasta': { name: 'Seafood Pasta', price: 2495 },
+            'grilled-snapper': { name: 'Grilled Red Snapper', price: 2695 },
+            'buffalo-wings': { name: 'Buffalo Wings', price: 2395 },
+            'italian-pasta': { name: 'Italian Pasta', price: 1895 },
+            'butchers-chicken': { name: 'Butchers Chicken', price: 1995 }
+        };
+        
+        // Load and display cart data
+        function loadOrderSummary() {
+            const cart = JSON.parse(localStorage.getItem('foodiesCart')) || {};
+            const orderItemsContainer = document.getElementById('order-items');
+            
+            let cartCount = 0;
+            let cartTotal = 0;
+            let orderHTML = '';
+            
+            // Check if cart is empty
+            const hasItems = Object.keys(cart).some(key => cart[key].quantity > 0);
+            
+            if (!hasItems) {
+                orderHTML = `
+                    <div class="text-center p-4">
+                        <i class="bi bi-cart-x" style="font-size: 3rem; color: #6c757d;"></i>
+                        <h5 class="mt-3 text-muted">Your cart is empty</h5>
+                        <p class="text-muted">Add items from the menu to proceed with checkout</p>
+                        <a href="order-panel.html" class="btn btn-primary mt-2">
+                            <i class="bi bi-arrow-left me-2"></i>Back to Menu
+                        </a>
+                    </div>
+                `;
+                document.getElementById('place-order-btn').disabled = true;
+                document.getElementById('place-order-btn').style.opacity = '0.5';
+            } else {
+                // Generate order items HTML
+                Object.entries(cart).forEach(([itemKey, cartItem]) => {
+                    const itemData = items[itemKey];
+                    if (itemData && cartItem.quantity > 0) {
+                        const itemTotal = cartItem.price * cartItem.quantity;
+                        cartCount += cartItem.quantity;
+                        cartTotal += itemTotal;
+                        
+                        orderHTML += `
+                            <div class="d-flex justify-content-between align-items-center mb-3 p-2 border-bottom">
+                                <div>
+                                    <strong>${itemData.name}</strong><br>
+                                    <small class="text-muted">Rs ${cartItem.price.toLocaleString()} × ${cartItem.quantity}</small>
+                                </div>
+                                <span class="fw-bold">Rs ${itemTotal.toLocaleString()}</span>
+                            </div>
+                        `;
+                    }
+                });
+            }
+            
+            // Update order items display
+            orderItemsContainer.innerHTML = orderHTML;
+            
+            // Calculate pricing
+            const tax = Math.round(cartTotal * 0.13);
+            const delivery = cartTotal > 0 ? 200 : 0;
+            const finalTotal = cartTotal + tax + delivery;
+            
+            // Update all pricing elements
+            document.getElementById('item-count').textContent = cartCount;
+            document.getElementById('subtotal-amount').textContent = `Rs ${cartTotal.toLocaleString()}`;
+            document.getElementById('tax-amount').textContent = `Rs ${tax.toLocaleString()}`;
+            document.getElementById('delivery-amount').textContent = `Rs ${delivery.toLocaleString()}`;
+            document.getElementById('total-amount').textContent = `Rs ${finalTotal.toLocaleString()}`;
+            document.getElementById('order-total').textContent = `Rs ${finalTotal.toLocaleString()}`;
+            
+            // Update page title with total
+            document.title = `Checkout - Rs ${finalTotal.toLocaleString()} - Foodies`;
+        }
+        
+        // Load order summary when page loads
+        document.addEventListener('DOMContentLoaded', function() {
+            loadOrderSummary();
+        });
+        
+        // Payment method selection
+        document.querySelectorAll('.payment-method').forEach(method => {
+            method.addEventListener('click', function() {
+                // Remove selected class from all methods
+                document.querySelectorAll('.payment-method').forEach(m => m.classList.remove('selected'));
+                
+                // Add selected class to clicked method
+                this.classList.add('selected');
+                
+                // Check the radio button
+                this.querySelector('input[type="radio"]').checked = true;
+                
+                // Show/hide card details
+                const cardDetails = document.getElementById('card-details');
+                if (this.dataset.method === 'card') {
+                    cardDetails.style.display = 'block';
+                } else {
+                    cardDetails.style.display = 'none';
+                }
+            });
+        });
+
+        // Form submission
+        document.getElementById('checkout-form').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            // Simple validation
+            const requiredFields = this.querySelectorAll('[required]');
+            let isValid = true;
+            
+            requiredFields.forEach(field => {
+                if (!field.value.trim()) {
+                    field.classList.add('is-invalid');
+                    isValid = false;
+                } else {
+                    field.classList.remove('is-invalid');
+                }
+            });
+            
+            if (isValid) {
+                // Show loading state
+                const submitBtn = this.querySelector('.place-order-btn');
+                submitBtn.innerHTML = '<i class="bi bi-hourglass-split me-2"></i> Processing Order...';
+                submitBtn.disabled = true;
+                
+                // Get cart items for order summary
+                const cartItems = JSON.parse(localStorage.getItem('cartItems') || '[]');
+                const orderTotal = document.getElementById('order-total')?.textContent || 'Rs 0';
+                
+                // Generate a unique order number
+                const orderNumber = 'FD' + Date.now().toString().slice(-6);
+                
+                // Store order details in session storage
+                const orderDetails = {
+                    orderNumber: orderNumber,
+                    date: new Date().toLocaleString(),
+                    items: cartItems,
+                    total: orderTotal,
+                    status: 'Processing'
+                };
+                
+                // Save order to local storage
+                const orders = JSON.parse(localStorage.getItem('orders') || '[]');
+                orders.push(orderDetails);
+                localStorage.setItem('orders', JSON.stringify(orders));
+                
+                // Clear the cart
+                localStorage.removeItem('cartItems');
+                
+                // Redirect to order confirmation page with order number and source
+                setTimeout(() => {
+                    window.location.href = `order-confirmation.html?order=${orderNumber}&from=checkout`;
+                }, 1500);
+            } else {
+                alert('Please fill in all required fields.');
+            }
+        });
+
+        // Card number formatting
+        document.querySelector('input[name="cardNumber"]')?.addEventListener('input', function(e) {
+            let value = e.target.value.replace(/\s/g, '').replace(/[^0-9]/gi, '');
+            let formattedValue = value.match(/.{1,4}/g)?.join(' ') || value;
+            e.target.value = formattedValue;
+        });
+
+        // Expiry date formatting
+        document.querySelector('input[name="expiryDate"]')?.addEventListener('input', function(e) {
+            let value = e.target.value.replace(/\D/g, '');
+            if (value.length >= 2) {
+                value = value.substring(0, 2) + '/' + value.substring(2, 4);
+            }
+            e.target.value = value;
+        });
+    </script>
+</body>
+</html>
